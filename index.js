@@ -8,8 +8,10 @@ app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'))
 
 io.on('connection', socket => {
   socket.emit('chat message', `A new user has connectered`)
-  socket.on('disconnect', () => socket.emit('chat message', `User has disconnected`))
-  socket.on('chat message', msg => socket.emit('chat message', msg))
+  socket.on('disconnect', () => io.emit('chat message', `User has disconnected`))
+  socket.on('chat message', msg => {
+    io.emit('chat message', msg)
+  })
 })
 
 http.listen(port, () => console.log(`listening on port: ${port}`))
