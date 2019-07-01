@@ -7,9 +7,9 @@ const port = process.env.PORT || 3000
 app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'))
 
 io.on('connection', socket => {
-  io.broadcast.emit('chat message', `A new user has connectered`)
-  socket.on('disconnect', () => io.broadcast.emit('chat message', `User has disconnected`))
-  socket.on('chat message', msg => io.broadcst.emit('chat message', msg))
+  socket.emit('chat message', `A new user has connectered`)
+  socket.on('disconnect', () => socket.emit('chat message', `User has disconnected`))
+  socket.on('chat message', msg => socket.emit('chat message', msg))
 })
 
 http.listen(port, () => console.log(`listening on port: ${port}`))
